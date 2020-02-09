@@ -2,6 +2,11 @@ var express = require("express");
 const puppeteer = require("puppeteer");
 var router = express.Router();
 
+router.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 /* POST users listing. */
 router.post("/", function(req, res) {
@@ -11,7 +16,8 @@ router.post("/", function(req, res) {
 });
 
 const convertImageToImage = async (html,res) => {
-  const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
+  const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});//production linux server
+  //const browser = await puppeteer.launch(); //development
   const page = await browser.newPage();
   await page.setViewport({
     width: 600,
