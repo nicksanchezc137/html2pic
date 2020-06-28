@@ -4,7 +4,7 @@ var bodyParser     =        require("body-parser");
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var debug = require('debug')('express-api:server');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var pdf2picRouter = require('./routes/pdf2pic');
@@ -34,6 +34,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
+console.log("i am running");
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -42,6 +43,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.set('port', process.env.PORT || 5000);
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
 });
 
 module.exports = app;
